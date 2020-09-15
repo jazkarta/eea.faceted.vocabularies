@@ -46,11 +46,11 @@ class CatalogIndexesVocabulary(object):
         """ Get indexes labels from portal_atct settings
         """
         registry = getUtility(IRegistry)
-        config = IQuerystringRegistryReader(registry)()
-        indexes = config.get('indexes', {})
+        config = IQuerystringRegistryReader(registry)
+        indexes = config.parseRegistry()
 
         res = {}
-        for index, ob in indexes.items():
+        for index, ob in indexes.get('%s.field' % config.prefix).items():
             res[index] = ob.get('title', index)
         return res
 
